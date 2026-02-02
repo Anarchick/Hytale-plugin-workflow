@@ -1,0 +1,33 @@
+# Gradle
+.gradle/
+**/build/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Hytale
+*.class
+*.jar
+!gradle/wrapper/gradle-wrapper.jar
+.hytale-downloader-credentials.json
+auth.enc
+.cache/
+logs/
+universe/
+Assets*.zip
+hytale-downloader.txt.lock
+
+# Setup
+.bin/
+server/
+src-ref/
