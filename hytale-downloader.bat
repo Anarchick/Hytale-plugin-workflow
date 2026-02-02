@@ -35,6 +35,16 @@ if not exist "%HYTALE_DOWNLOADER_CLI%" (
 echo [OK] CLI found: %HYTALE_DOWNLOADER_CLI%
 echo.
 
+:: If .hytale-downloader-credentials.json is missing
+if not exist ".hytale-downloader-credentials.json" (
+    echo [ERROR] Credentials file not found: .hytale-downloader-credentials.json
+    echo Please authenticate using the CLI before running this script.
+    echo.
+    "%HYTALE_DOWNLOADER_CLI%" -print-version
+    pause
+    exit /b 1
+)
+
 :: Get the latest available version
 echo [INFO] Checking for the latest available version...
 for /f "delims=" %%i in ('"%HYTALE_DOWNLOADER_CLI%" -print-version 2^>nul') do set LATEST_VERSION=%%i
