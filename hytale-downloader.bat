@@ -137,8 +137,10 @@ if /i "%BACKUP%"=="Y" (
     if exist "server\Server" (
         echo [INFO] Compressing server/Server to server/Server-%INSTALLED_VERSION%.zip
         powershell -command "$ErrorActionPreference='Stop'; try { Compress-Archive -Path 'server\Server\*' -DestinationPath 'server\Server-%INSTALLED_VERSION%.zip' -Force; exit 0 } catch { Write-Host '[ERROR]' $_.Exception.Message; exit 1 }"
-        if !ERRORLEVEL! neq 0 (
-            echo [WARNING] Failed to compress server backup. Continuing anyway...
+        if %ERRORLEVEL% neq 0 (
+            echo [ERROR] Failed to compress server backup. Aborting...
+            pause
+            exit /b 1
         )
     )
     echo.
@@ -157,6 +159,7 @@ mkdir "%TEMP_EXTRACT%"
 powershell -command "$ErrorActionPreference='Stop'; try { Expand-Archive -Path '%CLI_DIR%%DOWNLOADED_ZIP%' -DestinationPath '%TEMP_EXTRACT%' -Force; exit 0 } catch { Write-Host '[ERROR]' $_.Exception.Message; exit 1 }"
 if %ERRORLEVEL% neq 0 (
     echo [ERROR] Failed to extract the ZIP file.
+    echo Cleaning up temporary files...
     rd /s /q "%TEMP_EXTRACT%" 2>nul
     pause
     exit /b 1
